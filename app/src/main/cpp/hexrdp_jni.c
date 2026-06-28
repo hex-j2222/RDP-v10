@@ -45,7 +45,12 @@ typedef struct
 
 /* ── Callbacks invoked by FreeRDP's core on graphics updates ──────────── */
 
-static BOOL hexrdp_on_frame(rdpContext* context, const RECTANGLE_16* rect)
+/* pEndPaint in the prebuilt FreeRDP3 headers is typedef'd as
+ * BOOL (*pEndPaint)(rdpContext*) — no RECTANGLE_16 parameter.
+ * The function must match that exact signature to satisfy the compiler.
+ * We repaint the full frame on every EndPaint call; partial-region
+ * optimisation is not possible without a region parameter. */
+static BOOL hexrdp_on_frame(rdpContext* context)
 {
     hexrdpContext* hctx = (hexrdpContext*)context;
     rdpGdi* gdi = context->gdi;
@@ -67,10 +72,11 @@ static BOOL hexrdp_on_frame(rdpContext* context, const RECTANGLE_16* rect)
         return TRUE;
     }
 
-    int x = rect ? rect->left : 0;
-    int y = rect ? rect->top : 0;
-    int w = rect ? (rect->right - rect->left) : (int)gdi->width;
-    int h = rect ? (rect->bottom - rect->top) : (int)gdi->height;
+    /* No region parameter in this FreeRDP version: always repaint the full frame. */
+    int x = 0;
+    int y = 0;
+    int w = (int)gdi->width;
+    int h = (int)gdi->height;
     if (w <= 0 || h <= 0)
         return TRUE;
 
@@ -83,14 +89,14 @@ static BOOL hexrdp_on_frame(rdpContext* context, const RECTANGLE_16* rect)
     const BYTE* src = gdi->primary_buffer;
     for (int row = 0; row < h; row++)
     {
-        const UINT32* srcRow = (const UINT32*)(src + (size_t)(y + row) * stride) + x;
+        const UINT32* srcRow = (const UINT32*)(src + (size_t)row * stride) + x;
         memcpy(buf + (size_t)row * w, srcRow, (size_t)w * sizeof(jint));
     }
     (*env)->ReleaseIntArrayElements(env, pixels, buf, 0);
 
     (*env)->CallVoidMethod(env, hctx->bridgeObjGlobalRef, hctx->onFrameMethod,
                             x, y, w, h, pixels,
-                            (jboolean)(rect == NULL));
+                            (jboolean)JNI_TRUE);  /* full-frame repaint */
     (*env)->DeleteLocalRef(env, pixels);
     if (didAttach)
         (*hctx->jvm)->DetachCurrentThread(hctx->jvm);
