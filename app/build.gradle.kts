@@ -119,6 +119,7 @@ android {
             // IncompatibleClassChangeError due to a Kotlin Analysis API
             // interface/class mismatch between the lint JARs and the compiler.
             "RememberInComposition",
+            "CoroutineCreationDuringComposition",
             "FlowOperatorInvokedInComposition",
             "FrequentlyChangingValue",
             "ComposableDestinationInComposeNavigator",
