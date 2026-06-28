@@ -17,9 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.automirrored.outlined.Send
-import androidx.compose.material.icons.automirrored.outlined.VolumeUp
+import androidx.compose.material.icons.automirrored.outlined.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -84,7 +82,7 @@ fun SettingsScreen(
                     },
                     navigationIcon = {
                         IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(ArrowBack, null, tint = PulsarCyan)
+                            Icon(Icons.AutoMirrored.Outlined.ArrowBack, null, tint = PulsarCyan)
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
@@ -213,7 +211,7 @@ fun SettingsScreen(
                 )
 
                 SettingsToggle(
-                    icon            = VolumeUp,
+                    icon            = Icons.AutoMirrored.Outlined.VolumeUp,
                     title           = stringResource(R.string.sound_effects),
                     subtitle        = stringResource(R.string.sound_effects_desc),
                     checked         = settings.soundEnabled,
@@ -394,7 +392,7 @@ fun SettingsScreen(
                 )
 
                 SettingsItem(
-                    icon     = Send,
+                    icon     = Icons.AutoMirrored.Outlined.Send,
                     title    = "Telegram",
                     subtitle = stringResource(R.string.developer_telegram),
                     onClick  = {
