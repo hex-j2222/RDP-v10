@@ -115,22 +115,37 @@ android {
         // and the one used by the compiler plugin. Disabling them globally
         // until the upstream libraries ship updated lint artifacts.
         disable += setOf(
-            // androidx.compose.runtime lint — these detectors crash with
-            // IncompatibleClassChangeError due to a Kotlin Analysis API
-            // interface/class mismatch between the lint JARs and the compiler.
-            "RememberInComposition",
-            "CoroutineCreationDuringComposition",
-            "FlowOperatorInvokedInComposition",
-            "FrequentlyChangingValue",
-            "ComposableDestinationInComposeNavigator",
+            // ── androidx.compose.runtime lint ─────────────────────────────────
+            // All detectors below crash with IncompatibleClassChangeError because
+            // the Kotlin Analysis API changed classes to interfaces between the
+            // version used to compile the lint JARs and the active compiler plugin.
+            // Disabling the entire compose.runtime.lint suite until upstream ships
+            // updated artifacts.
+            "AutoboxingStateCreation",
             "ComposableLambdaParameterNaming",
             "ComposableLambdaParameterPosition",
             "CompositionLocalNaming",
+            "CoroutineCreationDuringComposition",
+            "FlowOperatorInvokedInComposition",
+            "FrequentlyChangingValue",
+            "ProduceStateDoesNotAssignValue",
+            "RememberInComposition",
             "RememberReturnType",
             "UnrememberedAnimatable",
             "UnrememberedMutableInteractionSource",
             "UnrememberedMutableState",
-            // androidx.lifecycle lint
+            // ── androidx.compose.ui lint ──────────────────────────────────────
+            "ModifierFactoryExtensionFunction",
+            "ModifierFactoryReturnType",
+            "ModifierFactoryUnreferencedReceiver",
+            "ModifierNodeInspectableProperties",
+            "SuspiciousCompositionLocalModifierRead",
+            "UnnecessaryCompositionLocalUsage",
+            // ── androidx.compose.foundation lint ─────────────────────────────
+            "FrequentlyChangedStateReadInComposition",
+            // ── androidx.navigation.compose lint ─────────────────────────────
+            "ComposableDestinationInComposeNavigator",
+            // ── androidx.lifecycle lint ───────────────────────────────────────
             "NullSafeMutableLiveData",
             "StateFlowValueCalledInComposition",
             "LifecycleWhenChecks",
@@ -206,3 +221,4 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
