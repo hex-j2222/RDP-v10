@@ -17,7 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Label
+import androidx.compose.material.icons.automirrored.outlined.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -931,7 +931,7 @@ fun ProfileFormDialog(
                 ProtocolSelector(selected = protocolType, onSelect = ::selectProtocol, isEditing = profile != null)
 
                 SectionDivider(stringResource(R.string.connection))
-                SpaceTextField(name, { name = it }, stringResource(R.string.connection_name), Label)
+                SpaceTextField(name, { name = it }, stringResource(R.string.connection_name), Icons.AutoMirrored.Outlined.Label)
                 SpaceTextField(host, { host = it }, stringResource(R.string.host_ip), Icons.Outlined.Language)
                 SpaceTextField(
                     port,
